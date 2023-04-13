@@ -1,63 +1,77 @@
 (ns tictactoe.ai-test
   (:require [speclj.core :refer :all]
-            [tictactoe.ai-player-hard :as ai]))
+            [tictactoe.ai-player-hard :refer :all]))
 
 (describe "AI"
-  (describe "get-score"
+  (describe "#game-evaluation"
     (it "returns the correct score when the player is the winner"
-      (should= 7 (ai/get-score "X" 3 "X"))
-      (should= 5 (ai/get-score "O" 5 "O")))
+      (should= 10 (game-evaluation "X" "X"))
+      (should= 10 (game-evaluation "O" "O")))
 
     (it "returns the correct score when the player is not the winner"
-      (should= -7 (ai/get-score "O" 3 "X"))
-      (should= -5 (ai/get-score "X" 5 "O")))
+      (should= -10 (game-evaluation "O" "X"))
+      (should= -10 (game-evaluation "X" "O")))
 
     (it "returns 0 when there's no winner"
-      (should= 0 (ai/get-score nil 3 "X"))
-      (should= 0 (ai/get-score nil 5 "O")))
+      (should= 0 (game-evaluation false "X"))
+      (should= 0 (game-evaluation false "O")))
     )
 
-  (describe "minimax"
-    (it "returns the correct score for a non-terminal game state"
-      (let [board ["O" " " "X"
-                   "X" "X" "O"
-                   "O" " " "X"]
-            depth 3
-            player "X"
-            ai-player "O"]
-        (should= 0 (ai/minimax board depth player ai-player))))
-    )
-  (describe "ai moves"
-    (it "returns 3 as best move"
-      (let [board ["O" " " "X"
-                   " " "X" "X"
-                   "O" " " "O"]]
-        (should= 3 (ai/minimax-move board "X"))))
+  (describe "#minimax"
+    (it "returns 0 if board is full with out a winner"
+      (should= 0
+               (minimax ["X" "O" "X"
+                         "O" "O" "X"
+                         "X" "X" "O"] "O" "O")))
+    (it "returns 10 if has winner and current player is human"
+      (should= 10
+               (minimax ["X" "X" "X"
+                         "O" "O" " "
+                         " " " " " "] "X" "X")))
+    (it "returns 10 if has winner and curent player is computer"
+      (should= 10
+               (minimax ["O" "O" "O"
+                         "X" "X" " "
+                         " " " " " "] "O" "O")))
+    (it "returns an eval of 2 for a game you can't lose"
+      (should= 10
+               (minimax [" " "X" " "
+                         " " "O" " "
+                         " " "X" " "] "O" "X")))
+    (it "returns an eval of 10 for a maximum tied game"
+      (should= 0
+               (minimax ["X" " " " " " " " " " " " " " " " "] "O" "X"
+                        )))
+    (it "returns an eval of 0 for a game bound to lose"
+      (should= -10
+               (minimax ["X" "O" " " " " "X" " " " " " " " "] "O" "X"
+                        ))))
 
-    (it "returns 7 as best move"
-      (let [board ["O" "X" " "
-                   " " "O" " "
-                   "X" " " "X"]]
-        (should= 7 (ai/minimax-move board "O"))))
+  (describe "#get-scores"
+    (it "getting scores for available moves"
+      (should= [-10 0 0 -10 0 -10]
+               (get-scores ["O" "X" " "
+                            "X" " " " "
+                            " " " " " "] "O" "O"))))
 
-    (it "returns 4 as best move"
-      (let [board ["O" "X" " "
-                   " " " " " "
-                   "X" " " " "]]
-        (should= 4 (ai/minimax-move board "O"))))
+  (describe "#minimax-move"
+    (it "returns the best move for a winning position"
+      (should= 2
+               (minimax-move ["O" "X" " "
+                              "X" "O" " "
+                              " " " " " "] "O"))
+      (should= 0
+               (minimax-move [" " "X" "X"
+                              "O" "O" " "
+                              " " " " " "] "X")))
 
-    (it "returns 2 as best move"
-      (let [board ["O" "O" " "
-                   " " "X" " "
-                   "X" " " "X"]]
-        (should= 2 (ai/minimax-move board "O"))))
-
-    (it "returns 8 as best move"
-      (let [board ["O" " " " "
-                   " " " " "X"
-                   " " "X" " "]]
-        (should= 8 (ai/minimax-move board "O"))))
-    )
+    (it "returns the best move for a defensive position"
+      (should= 8
+               (minimax-move ["O" "X" " "
+                              "X" "O" " "
+                              " " " " " "] "X"))
+      (should= 1
+               (minimax-move ["X" " " "X"
+                              "X" "O" "O"
+                              " " " " " "] "O"))))
   )
-
-

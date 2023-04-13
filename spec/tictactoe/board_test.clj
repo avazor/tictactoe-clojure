@@ -24,4 +24,16 @@
                    " " "X" " "
                    " " " " " "]]
         (should (board/valid-move? board 0))
-        (should-not (board/valid-move? board 4))))))
+        (should-not (board/valid-move? board 4)))))
+  (describe "full?"
+    (it "checks if board is full"
+      (let [board ["O" "X" "O"
+                   "O" "X" "X"
+                   "X" "O" "X"]]
+        (should (board/full? board))))
+    (it "checks that board is not full"
+      (let [board ["O" "X" "O"
+                   "O" "X" "X"
+                   "X" "O" " "]]
+        (should-not (board/full? board)))))
+  )

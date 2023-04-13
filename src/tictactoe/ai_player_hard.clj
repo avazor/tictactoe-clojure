@@ -1,30 +1,29 @@
 (ns tictactoe.ai-player-hard
   (:require [tictactoe.board :as board]
-            [tictactoe.game :as game]))
+            [tictactoe.rules :as rules]))
 
-(defn get-score [winner depth player]
+(declare get-scores)
+
+(defn game-evaluation [winner ai-player]
   (cond
-    (= winner player) (- 10 depth)
-    (= winner (game/next-player player)) (- depth 10)
-    :else 0))
+    (not winner) 0
+    (= winner ai-player) 10
+    (= winner (rules/get-next-player ai-player)) -10))
 
-(defn calculate-best-score [player ai-player scores]
-  (if (= player ai-player)
-    (apply max scores)
-    (apply min scores)))
+(defn minimax [board ai-player current-player]
+  (let [winner (rules/get-winner board)]
+    (if (rules/game-over? board)
+      (game-evaluation winner ai-player)
+      (let [scores (get-scores board ai-player (rules/get-next-player current-player))]
+        (if (= current-player ai-player)
+          (apply min scores)
+          (apply max scores))))))
 
-(defn minimax [board depth player ai-player]
-  (let [next-player (game/next-player player)
-        winner (game/has-winner? board)]
-    (if (game/game-over? board)
-      (get-score winner depth player)
-      (let [moves (board/available-moves board)
-            scores (map (fn [move] (minimax (board/make-move board move player) (inc depth) next-player ai-player)) moves)]
-        (calculate-best-score player ai-player scores)))))
+(defn get-scores [board ai-player next-player]
+  (map #(minimax (board/make-move board % next-player) ai-player next-player)
+       (board/available-moves board)))
 
 (defn minimax-move [board ai-player]
-  (let [player (game/next-player ai-player)
-        next-moves (board/available-moves board)
-        scores (map #(minimax (board/make-move board % player) 0 (game/next-player player) ai-player) next-moves)
-        best-score (calculate-best-score player ai-player scores)]
-    (nth next-moves (.indexOf scores best-score))))
+  (let [scores (get-scores board ai-player ai-player)
+        valid-moves (board/available-moves board)]
+    (nth valid-moves (.indexOf scores (apply max scores)))))
