@@ -9,14 +9,14 @@
       (should= [" " " " " "
                 " " " " " "
                 " " " " " "]
-               (board/empty-board))))
+               (board/empty-board 3))))
 
   (describe "make-move"
     (it "makes a move on the board"
       (should= [" " " " " "
                 " " "X" " "
                 " " " " " "]
-               (board/make-move (board/empty-board) 4 "X"))))
+               (board/make-move (board/empty-board 3) 4 "X"))))
 
   (describe "valid-move?"
     (it "checks if a move is valid"

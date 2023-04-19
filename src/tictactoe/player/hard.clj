@@ -1,6 +1,7 @@
-(ns tictactoe.ai-player-hard
+(ns tictactoe.player.hard
   (:require [tictactoe.board :as board]
-            [tictactoe.rules :as rules]))
+            [tictactoe.rules :as rules]
+            [tictactoe.player.player :as strategy]))
 
 (declare get-scores)
 
@@ -24,6 +25,12 @@
        (board/available-moves board)))
 
 (defn minimax-move [board ai-player]
+  (println ai-player)
   (let [scores (get-scores board ai-player ai-player)
         valid-moves (board/available-moves board)]
     (nth valid-moves (.indexOf scores (apply max scores)))))
+
+(defrecord HardAI []
+  strategy/PlayerStrategy
+  (make-move [this board symbol]
+    (minimax-move board symbol)))

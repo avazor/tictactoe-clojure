@@ -1,6 +1,6 @@
-(ns tictactoe.ai-test
+(ns tictactoe.ai-hard-test
   (:require [speclj.core :refer :all]
-            [tictactoe.ai-player-hard :refer :all]))
+            [tictactoe.player.hard :refer :all]))
 
 (describe "AI"
   (describe "#game-evaluation"

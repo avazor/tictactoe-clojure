@@ -1,7 +1,17 @@
 (ns tictactoe.rules
   (:require [tictactoe.board :as board]))
+
+(defn winning-positions [size]
+  (let [rows (map (fn [i] (take size (iterate inc (* i size)))) (range size))
+        cols (map (fn [i] (take size (iterate (fn [x] (+ x size)) i))) (range size))
+        diag1 [(take size (iterate (fn [x] (+ x (inc size))) 0))]
+        diag2 [(take size (iterate (fn [x] (+ x (dec size))) (dec size)))]]
+    (concat rows cols diag1 diag2)))
+
+
 (defn get-winner [board]
-  (let [winning-positions [[0 1 2] [3 4 5] [6 7 8] [0 3 6] [1 4 7] [2 5 8] [0 4 8] [2 4 6]]]
+  (let [size (int (Math/sqrt (count board)))
+        winning-positions (winning-positions size)]
     (some (fn [winning-pos]
             (let [player (nth board (first winning-pos))]
               (if (not= player " ")
