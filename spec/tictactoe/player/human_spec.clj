@@ -9,5 +9,6 @@
     (with-redefs [io/print-message (fn [_] :message-printed)
                   io/get-input (fn [] "5")]
       (let [human-player (human/map->Human {})]
-        (should= :message-printed (io/print-message "Enter the index of the cell for your next move: \n"))
+        (with-out-str
+          (should= :message-printed (io/print-message "Enter the index of the cell for your next move: \n")))
         (should= 5 (strategy/make-move human-player nil nil))))))

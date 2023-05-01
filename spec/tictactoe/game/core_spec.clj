@@ -53,7 +53,6 @@
                     db/save-game (fn [& args] (reset! save-game-args args) 1)
                     db/update-game-status (fn [& args] (reset! update-game-status-args args))]
         (core/play-game players board game-name))
-      (println @play-turn-args)
       (should= (first @play-turn-args) 1) ; game-id
       (should= (second @play-turn-args) board)
       (should= (nth @play-turn-args 2) "X") ; current-player
