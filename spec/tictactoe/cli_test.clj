@@ -22,5 +22,6 @@
                (with-out-str (cli/print-board board)))))
 
     (it "reads user input"
+
       (with-in-str "4\n"
                    (should= "4" (cli/get-input)))))

@@ -9,4 +9,6 @@
     (let [easy-ai (easy-ai/->EasyAI)]
       (if (< (rand) 0.5)
         (hard-ai/minimax-move board symbol)
-        (strategy/make-move easy-ai board symbol)))))
+        (strategy/make-move easy-ai board symbol)))
+
+    ))

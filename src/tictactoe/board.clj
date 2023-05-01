@@ -1,7 +1,7 @@
 (ns tictactoe.board)
 
 (defn empty-board [size]
-  (vec (repeat (* size size) " ")))
+  (vec (repeat size " ")))
 
 (defn get-cell [board index]
   (nth board index))
@@ -13,10 +13,10 @@
   (assoc board index player))
 
 (defn valid-move? [board index]
-  (= " " (get-cell board index)))
+  (= " " (nth board index)))
 
 (defn full? [board]
   (not-any? #{" "} board))
 
 (defn board-size [board]
-  (int (Math/sqrt (count board))))
+  (count board))
