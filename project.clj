@@ -8,6 +8,6 @@
                  [org.clojure/java.jdbc "0.7.12"]
                  [mysql/mysql-connector-java "8.0.27"]
                  [com.h2database/h2 "2.1.214"]]
-  :profiles {:dev {:dependencies [[speclj "3.4.2"]]}}
+  :profiles {:dev {:dependencies [[speclj "3.4.3"]]}}
   :plugins [[speclj "3.4.2"]]
   :test-paths ["spec"])

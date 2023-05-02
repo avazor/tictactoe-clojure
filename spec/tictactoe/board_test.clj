@@ -3,9 +3,6 @@
             [tictactoe.board :as board]))
 
 (describe "Board"
-
-  (tags :slow)
-
     (it "creates an empty board"
       (should= [" " " " " "
                 " " " " " "

@@ -24,9 +24,9 @@
 
 (defn print-3d-board [board]
   (let [size (int (Math/pow (count board) (/ 1 3)))]
-    (dotimes [layer size]
-      (println (str "Layer " (inc layer) ":"))
-      (dotimes [row size]
+    (dotimes [row size]
+      (dotimes [layer size]
+        (when (> layer 0)(print "         "))
         (dotimes [col size]
           (let [index (+ (* layer size size) (* row size) col)
                 cell (board index)]
@@ -34,10 +34,12 @@
                      (format "%2d " index)
                      (format " %s " cell))))
           (if (< col (dec size)) (print " | ")))
-        (println))
+        (if (< layer (dec size)) (print "   ")))
       (println))
+    (println)
     (flush))
   )
+
 
 (defn print-board [game-board]
   (let [board-size (board/board-size game-board)]

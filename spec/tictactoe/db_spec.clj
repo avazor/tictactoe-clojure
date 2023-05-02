@@ -11,7 +11,6 @@
     (tictactoe.db/set-db-spec! prev-db-spec)))
 
 (describe "TicTacToe DB"
-  (tags :slow)
   (around [it] (with-test-db it))
 
   (it "can save a game"

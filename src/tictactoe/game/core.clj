@@ -11,6 +11,7 @@
   (let [player (if (= current-player (:symbol (first players))) (first players) (second players))
         symbol (get player :symbol)
         player (get player :player)]
+    (io/print-message (str "Player " symbol " is making the move"))
     (player/make-move player board symbol)))
 
 (defn play-turn [game-id board current-player players move-number]

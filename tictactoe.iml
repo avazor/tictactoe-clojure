@@ -28,7 +28,7 @@
     <orderEntry type="library" name="Leiningen: org.clojure/java.jdbc:0.7.12" level="project" />
     <orderEntry type="library" name="Leiningen: org.clojure/spec.alpha:0.2.176" level="project" />
     <orderEntry type="library" name="Leiningen: org.nrepl/incomplete:0.1.0" level="project" />
-    <orderEntry type="library" name="Leiningen: speclj:3.4.2" level="project" />
+    <orderEntry type="library" name="Leiningen: speclj:3.4.3" level="project" />
     <orderEntry type="library" name="Leiningen: trptcolin/versioneer:0.1.1" level="project" />
   </component>
 </module>

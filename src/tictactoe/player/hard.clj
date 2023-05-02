@@ -50,20 +50,19 @@
         (let [player-count (count (filter #(= player %) (map #(get board %) line)))
               opponent-count (count (filter #(= opponent %) (map #(get board %) line)))]
           (cond
-            (= player-count (dec (count line))) (+ score 2)
-            (= opponent-count (dec (count line))) (+ score 1)
+            (= player-count (dec (count line))) (+ score 10)
+            (= opponent-count (dec (count line))) (+ score 5)
             :else score)))
       0 potential-lines)))
 
 (defn minimax-move [board ai-player]
   (let [available-moves (filter #(= " " (board/get-cell board %)) (range (count board)))
-        random-move (rand-nth available-moves)
         max-depth 15
         scored-moves (map (fn [index] {:index index :score (move-score board index ai-player)}) available-moves)
         ordered-moves (map :index (sort-by :score > scored-moves))]
     (vreset! search-start-time (System/currentTimeMillis))
     (loop [depth 1
-           best-move {:index random-move :score -100}]
+           best-move {:index (first ordered-moves) :score -100}]
       (if (< depth max-depth)
         (let [result (->> ordered-moves
                           (map (fn [index]
@@ -71,10 +70,10 @@
                                        score (minimax board-with-move depth -100 100 false ai-player)]
                                    {:index index :score (:score score)})))
                           (reduce (fn [best-move current-move]
-                                    (if (and (> (:score current-move) (:score best-move)) (not (time-exceeded?)))
+                                    (if (> (:score current-move) (:score best-move))
                                       current-move
                                       best-move))
-                                  {:index random-move :score -100}))]
+                                  {:index (first ordered-moves) :score -100}))]
           (if (time-exceeded?) (:index best-move) (recur (inc depth) result)))
         (:index best-move)))))
 

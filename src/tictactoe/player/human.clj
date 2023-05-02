@@ -5,5 +5,5 @@
 (defrecord Human []
   strategy/PlayerStrategy
   (make-move [_ _ _]
-    (io/print-message "Enter the index of the cell for your next move: \n")
+    (io/print-message "Enter the index of the cell for your next move: ")
     (Integer/parseInt (io/get-input))))

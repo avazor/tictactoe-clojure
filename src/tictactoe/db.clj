@@ -38,7 +38,7 @@
                                                     :board_size board-size
                                                     :created_at (Date.)
                                                     :finished   false})
-        result (first results)] ;; Get the first map from the sequence
+        result (first results)]
     (if (contains? result :generated_key)
       (:generated_key result)
       (:id result))))
