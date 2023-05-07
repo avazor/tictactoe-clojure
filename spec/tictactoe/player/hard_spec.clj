@@ -64,7 +64,7 @@
             ]
         (should= 25 (hard-ai/minimax-move board "O"))))
 
-    (focus-it "AI makes a winning move"
+    (it "AI makes a winning move"
       (let [board ["O" " " "O"
                    " " " " " "
                    " " "X" " "
